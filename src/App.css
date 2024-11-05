@@ -1,0 +1,35 @@
+/* styles.css */
+.slider {
+    -webkit-appearance: none; /* Remove default appearance in Chrome */
+    -moz-appearance: none; /* Remove default appearance in Firefox */
+    appearance: none; /* Remove default appearance in other browsers */
+    background: #a5b4fc;
+    outline: none;
+    opacity: 1;
+    height: 10px;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+    border-radius: 50px;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: whitesmoke;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%;
+  }

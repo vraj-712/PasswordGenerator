@@ -1,151 +1,134 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 
-function App() {
-  const [length, setLength] = useState(8);
-  const [numberAllow, setnumberAllow] = useState(false);
-  const [specialCharAllow, setSpecialCharAllow] = useState(false);
-  const [capitalAllow, setCapitalAllow] = useState(false);
-  const [smallAllow, setSmallAllow] = useState(false);
-  const [password, setpassword] = useState("");
-  const passwordRef = useRef(null);
+const App = () => {
 
-  function generatePassword() {
-    let pass = "";
-    let str = "";
-    if (capitalAllow) str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (smallAllow) str += "abcdefghijklmnopqrstuvwxyz";
-    if (numberAllow) str += "0123456789";
-    if (specialCharAllow) str += "!@#$%^&*()_-~`{}[]?,.";
-    str = stringShuffle(str);
-    for (let i = 1; i <= length; i++) {
-      let randomIndex = Math.floor(Math.random() * (str.length - 0) + 0);
-      pass += str.charAt(randomIndex);
+  const [lowerAllow, setLowerAllow] = useState(true)
+  const [upperAllow, setUpperAllow] = useState(false)
+  const [numerAllow, setNumberAllow] = useState(false)
+  const [specialCharAllow, setSpecialCharAllow] = useState(false)
+  const [passwordLength, setPasswordLength] = useState(25)
+  const [password, setPassword] = useState("")
+
+  const ref = useRef(null)
+
+  const generatePassword = () => {
+    let tempPassword = ""
+    let str = ""
+    if (lowerAllow) str += "abcdefghijklmnopqrstuvwxyz"
+    if (upperAllow) str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if (numerAllow) str += "0123456789"
+    if (specialCharAllow) str += "!@#$%^&*()_+-=[]{}|;:'\",./<>?"
+    str = shuffleString(str)
+    for (let i = 0; i < passwordLength; i++) {
+      tempPassword += str[Math.floor(Math.random() * str.length)];
     }
-    setpassword(pass);
+    setPassword(tempPassword)
   }
-  function stringShuffle(str) {
-    let tempStr = str.split("");
-    for (let i = tempStr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); // Generate a random index
-      const tmp = tempStr[i];
-      tempStr[i] = tempStr[j];
-      tempStr[j] = tmp;
+
+  const shuffleString = (str) => {
+    const chars = str.split(''); // Convert string to array of characters
+  
+    for (let i = chars.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // Generate random index
+      [chars[i], chars[j]] = [chars[j], chars[i]]; // Swap characters
     }
-    return tempStr.join("");
+  
+    return chars.join(''); // Convert array back to string
   }
-  function handleCopy() {
-    passwordRef.current?.select();
-    window.navigator.clipboard.writeText(password);
+
+  const handleCopy = () => {
+    const textToCopy = ref.current.value;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        toast.success('Copied to clipboard!');
+      })
+      .catch(err => {
+        toast.error('Failed to copy text: ', err);
+      });
   }
 
   useEffect(() => {
     generatePassword();
-  }, [length, numberAllow, specialCharAllow, capitalAllow, smallAllow, setpassword]);
+  },[passwordLength, lowerAllow, upperAllow, numerAllow, specialCharAllow])
+
 
   return (
-    <>
-      <div
-        className="w-1/2 h-1/2 mx-auto p-5 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 rounded-md"
-        style={{
-          backgroundColor: "#ADEFD1FF",
-          color: "#ADEFD1FF",
-          border: "2px solid #00203FFF",
-        }}
-      >
-        <div className="flex flex-col h-full">
-          <div
-            style={{ backgroundColor: "#00203FFF" }}
-            className="text-center p-3 text-white font-serif text-2xl rounded-xl my-1"
-            id="passwodgenerator"
-          >
-            Password Generator
+    <div className="h-screen w-full bg-gray-400">
+      <div className="w-4/5 h-3/4 bg-indigo-500 p-4 top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 rounded-xl">
+        <div className="h-full w-full bg-indigo-200 rounded-xl p-2 flex flex-col gap-2">
+          <div className="bg-indigo-500 md:p-5 p-3 rounded-xl">
+            <p className="text-white font-bold text-center md:text-3xl text-xl">
+              Password Generator
+            </p>
           </div>
-          <div
-            style={{ backgroundColor: "#00203FFF" }}
-            className=" rounded-xl px-2 py-7 my-1 h-full flex flex-col justify-around items-center"
-          >
-            <div className="w-11/12 h-1/5 mx-auto flex justify-center mt-2 mb-1">
+          <div className="bg-indigo-500 md:p-5 p-3 rounded-xl h-full flex flex-col md:gap-5 gap-2 justify-evenly">
+            <div className="flex flex-row justify-center">
               <input
                 type="text"
-                className="w-full text-md rounded-l-xl p-1"
+                className="w-10/12 m-1 md:h-16 h-10 rounded-xl md:p-2 p-1 md:text-xl text-md focus:outline-none text-indigo-500 font-bold"
                 value={password}
-                style={{ color: "#00203FFF" }}
-                ref={passwordRef}
+                ref={ref}
                 readOnly
               />
-              <button
-                className="rounded-r-xl text-md bg-blue-500 p-2"
-                onClick={handleCopy}
-              >
+              <button onClick={handleCopy} className="m-1 text-xl bg-indigo-300 w-full flex-1 hover:bg-indigo-400 p-2 rounded-xl font-bold text-white">
                 Copy
               </button>
             </div>
-            <div className="p-3 m-3 grid 2xl:grid-cols-3 xl:grid-cols-2 lg:grid-cols-1 xl:gap-10 gap-3 grid-wrap">
-              <div className="flex text-lg justify-between align-middle ">
+            <div className="flex flex-row mx-auto w-3/4 ">
+              <div className="bg-indigo-300 md:p-5 p-3 md:px-7 rounded-xl m-1">
+                <p className="text-white font-extrabold text-center text-lg items-center">
+                  {passwordLength}
+                </p>
+              </div>
+              <div className="md:p-5 p-2 rounded-xl w-full m-1 md:px-10 px-3">
                 <input
                   type="range"
-                  min={8}
-                  max={100}
-                  id="length"
-                  value={length}
-                  className="h-[25px] me-3"
-                  onChange={(e) => {
-                    setLength(e.target.value);
-                  }}
+                  name=""
+                  min="8"
+                  max="64"
+                  value={passwordLength}
+                  onChange={(e) => setPasswordLength(e.target.value)}
+                  className="align-middle w-full slider"
                 />
-                <label htmlFor="length" style={{alignSelf: "center"}} className="text-2xl font-bold">{`Length: ${length}`}</label>
-              </div> 
-              <div className="flex text-lg justify-between ">
-                <input
-                  type="checkbox"
-                  id="number"
-                  className="w-[25px]"
-                  onClick={() => {
-                    setnumberAllow((prev) => !prev);
-                  }}
-                />
-                <label htmlFor="number" style={{alignSelf: "center"}} className="text-2xl font-bold">Number</label>
               </div>
-              <div className="flex text-lg justify-between align-middle align-self-center">
-                <input
-                  type="checkbox"
-                  id="char"
-                  className="w-[25px]"
-                  onClick={() => {
-                    setSpecialCharAllow((prev) => !prev);
-                  }}
-                />
-                <label htmlFor="char" className="text-2xl font-bold  " style={{alignSelf: "center"}}>Character</label>
+            </div>
+            <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-11/12 mx-auto ">
+              <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
+                <input type="checkbox" onChange={(e) => setUpperAllow(e.target.checked)}  checked={upperAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
+                  Uppercase
+                </p>
               </div>
-              <div className="flex text-lg justify-between align-middle">
-                <input
-                  type="checkbox"
-                  id="capitalchar"
-                  className="w-[25px]"
-                  onClick={() => {
-                    setCapitalAllow((prev) => !prev);
-                  }}
-                />
-                <label htmlFor="capitalchar" className="text-2xl font-bold" style={{alignSelf: "center"}}>A - Z</label>
+              <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
+                <input type="checkbox" onChange={(e) => setLowerAllow(e.target.checked)} checked={lowerAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
+                  Lowercase
+                </p>
               </div>
-              <div className="flex text-lg justify-between align-middle">
-                <input
-                  type="checkbox"
-                  id="smallchar"
-                  className="w-[25px]"
-                  onClick={() => {
-                    setSmallAllow((prev) => !prev);
-                  }}
-                />
-                <label htmlFor="smallchar" className="text-2xl font-bold" style={{alignSelf: "center"}}>a - z</label>
+              <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
+                <input type="checkbox" onChange={(e) => setNumberAllow(e.target.checked)} checked={numerAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
+                  Number
+                </p>
+              </div>
+              <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
+                <input type="checkbox" onChange={(e) => setSpecialCharAllow(e.target.checked)} checked={specialCharAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
+                  Punctutation
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+      <ToastContainer/>
+    </div>
   );
-}
+};
 
 export default App;
