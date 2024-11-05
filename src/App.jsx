@@ -81,7 +81,7 @@ const App = () => {
             </div>
             <div className="flex flex-row mx-auto w-3/4 ">
               <div className="bg-indigo-300 md:p-5 p-3 md:px-7 rounded-xl m-1">
-                <p className="text-white font-extrabold text-center text-lg items-center">
+                <p className="text-white font-extrabold  text-center text-lg items-center">
                   {passwordLength}
                 </p>
               </div>
@@ -99,25 +99,25 @@ const App = () => {
             </div>
             <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-11/12 mx-auto ">
               <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
-                <input type="checkbox" onChange={(e) => setUpperAllow(e.target.checked)}  checked={upperAllow} className="w-1/4 h-[13px] md:h-[25px]" />
-                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
+                <input type="checkbox" id="uppercase" onChange={(e) => setUpperAllow(e.target.checked)}  checked={upperAllow} className="w-1/4 h-[13px] md:h-[25px]  cursor-pointer" />
+                <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl" >
                   Uppercase
                 </p>
               </div>
               <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
-                <input type="checkbox" onChange={(e) => setLowerAllow(e.target.checked)} checked={lowerAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <input type="checkbox" onChange={(e) => setLowerAllow(e.target.checked)} checked={lowerAllow} className="w-1/4 h-[13px] md:h-[25px] cursor-pointer" />
                 <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
                   Lowercase
                 </p>
               </div>
               <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
-                <input type="checkbox" onChange={(e) => setNumberAllow(e.target.checked)} checked={numerAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <input type="checkbox" onChange={(e) => setNumberAllow(e.target.checked)} checked={numerAllow} className="w-1/4 h-[13px] md:h-[25px] cursor-pointer" />
                 <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
                   Number
                 </p>
               </div>
               <div className="bg-indigo-300 md:p-5 p-2 rounded-xl m-1 flex flex-row items-center w-3/4 mx-auto gap-2">
-                <input type="checkbox" onChange={(e) => setSpecialCharAllow(e.target.checked)} checked={specialCharAllow} className="w-1/4 h-[13px] md:h-[25px]" />
+                <input type="checkbox" onChange={(e) => setSpecialCharAllow(e.target.checked)} checked={specialCharAllow} className="w-1/4 h-[13px] md:h-[25px] cursor-pointer" />
                 <p className="text-white font-extrabold text-center flex-1 w-full text-md md:text-xl">
                   Punctutation
                 </p>
