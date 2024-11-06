@@ -13,7 +13,7 @@ A simple and customizable password generator tool that creates secure, random pa
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/password-generator.git
+   git clone https://github.com/vraj-712/PasswordGenerator.git
    cd password-generator
 2. Add dependency
 
