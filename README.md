@@ -30,9 +30,21 @@ A simple and customizable password generator tool that creates secure, random pa
 
 ## Contributing
 - Fork the repository
-- Create your feature branch (git checkout -b feature/NewFeature)
-- Commit your changes (git commit -m 'Add NewFeature')
-- Push to the branch (git push origin feature/NewFeature)
+- Create your feature branch 
+  
+    ```bash
+    git checkout -b feature/NewFeature
+
+- Commit your changes
+
+     ```bash
+     git commit -m 'Add NewFeature'
+     
+- Push to the branch
+
+  ```bash
+  git push origin feature/NewFeature
+  
 - Open a Pull Request
 
 ## License
