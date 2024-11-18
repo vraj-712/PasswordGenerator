@@ -15,6 +15,11 @@ const App = () => {
   const ref = useRef(null)
 
   const generatePassword = () => {
+    if(!lowerAllow && !upperAllow && !numerAllow && !specialCharAllow) {
+      toast.error('Please select at least one character type')
+      setPassword(password)
+      return
+    }
     let tempPassword = ""
     let str = ""
     if (lowerAllow) str += "abcdefghijklmnopqrstuvwxyz"
